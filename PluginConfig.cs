@@ -40,8 +40,8 @@ namespace JDFixer
         internal virtual int pref_selected { get; set; } = 0;
 
         internal virtual int use_heuristic { get; set; } = 0;
-        internal float lower_threshold { get; set; } = 1f;
-        internal float upper_threshold { get; set; } = 100f;
+        internal virtual float lower_threshold { get; set; } = 1f;
+        internal virtual float upper_threshold { get; set; } = 100f;
 
         internal virtual bool rt_display_enabled { get; set; } = true;
         internal virtual bool legacy_display_enabled { get; set; } = false;
@@ -67,10 +67,10 @@ namespace JDFixer
         /// <summary>
         /// Call this to have BSIPA copy the values from <paramref name="other"/> into this config.
         /// </summary>
-        internal virtual void CopyFrom(PluginConfig other)
+        /*internal virtual void CopyFrom(PluginConfig other)
         {
             // This instance's members populated from other
-        }
+        }*/
     }
 
     internal class JDPref

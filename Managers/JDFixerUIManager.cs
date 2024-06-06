@@ -108,8 +108,7 @@ namespace JDFixer.Managers
                     // If a map is not dled, this will be the previous selected node's map
                     Plugin.Log.Debug("CC Level: " + MissionSelectionPatch.cc_level.levelID);  // For cross check with arg2.missionId
 
-                    // Uncomment when CC is released
-                    /*BeatmapLevel beatmapLevel = CustomCampaigns.Utils.BeatmapUtils.GetMatchingBeatmapDifficulty(arg2.missionData.beatmapKey.levelId, arg2.missionData.beatmapCharacteristic, arg2.missionData.beatmapDifficulty);
+                    BeatmapLevel beatmapLevel = CustomCampaigns.Utils.BeatmapUtils.GetMatchingBeatmapDifficulty(arg2.missionData.beatmapKey.levelId, arg2.missionData.beatmapCharacteristic, arg2.missionData.beatmapDifficulty);
 
                     if (beatmapLevel != null) // lol null check just to print?
                     {
@@ -118,7 +117,7 @@ namespace JDFixer.Managers
                         //Plugin.Log.Debug("MissionNode NJS: " + difficulty_beatmap.noteJumpMovementSpeed);
 
                         DiffcultyBeatmapUpdated(arg2.missionData.beatmapKey, beatmapLevel);
-                    }*/
+                    }
                 }
             }
             else // Map not dled
