@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿using BeatSaber.PerformancePresets;
+using HarmonyLib;
 using System;
 using System.Linq;
 
@@ -156,8 +157,8 @@ namespace JDFixer
     [HarmonyPatch(typeof(MissionSelectionMapViewController), "SongPlayerCrossfadeToLevelAsync")]
     internal class MissionSelectionPatch
     {
-        internal static IPreviewBeatmapLevel cc_level = null;
-        internal static void Postfix(IPreviewBeatmapLevel level)
+        internal static BeatmapLevel cc_level = null;
+        internal static void Postfix(BeatmapLevel level)
         {
             cc_level = level;
         }
@@ -165,6 +166,27 @@ namespace JDFixer
 
 
     [HarmonyPatch(typeof(StandardLevelScenesTransitionSetupDataSO), "Init")]
+    [HarmonyPatch(new Type[] { 
+        typeof(string), typeof(BeatmapKey), typeof(BeatmapLevel), typeof(OverrideEnvironmentSettings),
+        typeof(ColorScheme), typeof(ColorScheme), typeof(GameplayModifiers), typeof(PlayerSpecificSettings),
+        typeof(PracticeSettings), typeof(EnvironmentsListModel), typeof(AudioClipAsyncLoader), typeof(BeatmapDataLoader),
+        typeof(PerformancePreset),
+        typeof(string), typeof(BeatmapLevelsModel), typeof(bool), typeof(bool),
+        typeof(RecordingToolManager.SetupData) },
+        new ArgumentType[] { ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal,
+        ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal,
+        ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal,
+        ArgumentType.Normal,
+        ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal, ArgumentType.Normal,
+        ArgumentType.Normal} )]
+
+    //string gameMode, in BeatmapKey beatmapKey, BeatmapLevel beatmapLevel, OverrideEnvironmentSettings overrideEnvironmentSettings,
+    //ColorScheme overrideColorScheme, ColorScheme beatmapOverrideColorScheme, GameplayModifiers gameplayModifiers, PlayerSpecificSettings playerSpecificSettings,
+    //PracticeSettings practiceSettings, EnvironmentsListModel environmentsListModel, AudioClipAsyncLoader audioClipAsyncLoader, BeatmapDataLoader beatmapDataLoader,
+    //PerformancePreset performancePreset
+    //string backButtonText, BeatmapLevelsModel beatmapLevelsModel = null, bool useTestNoteCutSoundEffects = false, bool startPaused = false,
+    //RecordingToolManager.SetupData? recordingToolData = null
+
     internal class StandardLevelScenesTransitionSetupDataSOPatch
     {
         internal static void Postfix(GameplayModifiers gameplayModifiers, PracticeSettings practiceSettings)

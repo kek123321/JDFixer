@@ -3,14 +3,13 @@
     public class BeatmapInfo
     {
         internal delegate void BeatmapInfoEventHandler(BeatmapInfo e);
-
         internal static event BeatmapInfoEventHandler SelectedChanged;
 
-        internal static void SetSelected(IDifficultyBeatmap diff)
+        internal static void SetSelected(BeatmapKey key, BeatmapLevel level)
         {
-            var updatedMapInfo = diff == null ? Empty : new BeatmapInfo(diff);
-            Selected = updatedMapInfo;
+            var updatedMapInfo = level == null ? Empty : new BeatmapInfo(key, level);
 
+            Selected = updatedMapInfo;
             SelectedChanged?.Invoke(updatedMapInfo);
         }
 
@@ -42,16 +41,23 @@
             RTOffsetQuantum = 5f;
         }
 
-        internal BeatmapInfo(IDifficultyBeatmap diff)
+        internal BeatmapInfo(BeatmapKey key, BeatmapLevel level)
         {
-            if (diff == null)
+            if (level == null)
             {
                 return;
             }
 
-            float bpm = diff.level.beatsPerMinute;
-            float njs = diff.noteJumpMovementSpeed;
-            float offset = diff.noteJumpStartBeatOffset;
+            float bpm = level.beatsPerMinute;
+
+            BeatmapBasicData beatmapBasicData;
+            float njs = 10f;
+            float offset = 0f;
+            if (level.beatmapBasicData.TryGetValue((key.beatmapCharacteristic, key.difficulty), out beatmapBasicData))
+            {
+                njs = beatmapBasicData.noteJumpMovementSpeed;
+                offset = beatmapBasicData.noteJumpStartBeatOffset;
+            }
 
             if (njs <= 0.01f)
                 njs = 10f;

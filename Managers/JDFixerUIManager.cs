@@ -10,18 +10,20 @@ namespace JDFixer.Managers
     {
         private static StandardLevelDetailViewController levelDetail;
         private static MissionSelectionMapViewController missionSelection;
+        private static BeatmapLevelsModel levelsModel;
         private static MainMenuViewController mainMenu;
 
         private readonly List<IBeatmapInfoUpdater> beatmapInfoUpdaters;
 
 
         [Inject]
-        private JDFixerUIManager(StandardLevelDetailViewController standardLevelDetailViewController, MissionSelectionMapViewController missionSelectionMapViewController, MainMenuViewController mainMenuViewController, List<IBeatmapInfoUpdater> iBeatmapInfoUpdaters)
+        private JDFixerUIManager(StandardLevelDetailViewController standardLevelDetailViewController, MissionSelectionMapViewController missionSelectionMapViewController, BeatmapLevelsModel beatmapLevelsModel, MainMenuViewController mainMenuViewController, List<IBeatmapInfoUpdater> iBeatmapInfoUpdaters)
         {
             //Plugin.Log.Debug("JDFixerUIManager()");
 
             levelDetail = standardLevelDetailViewController;
             missionSelection = missionSelectionMapViewController;
+            levelsModel = beatmapLevelsModel;
             mainMenu = mainMenuViewController;
 
             beatmapInfoUpdaters = iBeatmapInfoUpdaters;
@@ -62,13 +64,13 @@ namespace JDFixer.Managers
         }
 
 
-        private void LevelDetail_didChangeDifficultyBeatmapEvent(StandardLevelDetailViewController arg1, IDifficultyBeatmap arg2)
+        private void LevelDetail_didChangeDifficultyBeatmapEvent(StandardLevelDetailViewController arg1)
         {
             //Plugin.Log.Debug("LevelDetail_didChangeDifficultyBeatmapEvent()");
 
-            if (arg1 != null && arg2 != null)
+            if (arg1 != null)
             {
-                DiffcultyBeatmapUpdated(arg2);
+                DiffcultyBeatmapUpdated(arg1.beatmapKey, arg1.beatmapLevel);
             }
         }
 
@@ -77,12 +79,12 @@ namespace JDFixer.Managers
         {
             //Plugin.Log.Debug("LevelDetail_didChangeContentEvent()");          
             
-            if (arg1 != null && arg1.selectedDifficultyBeatmap != null)
+            if (arg1 != null && arg1.beatmapLevel != null)//selectedDifficultyBeatmap != null)
             {
                 //Plugin.Log.Debug("NJS: " + arg1.selectedDifficultyBeatmap.noteJumpMovementSpeed);
                 //Plugin.Log.Debug("Offset: " + arg1.selectedDifficultyBeatmap.noteJumpStartBeatOffset);
 
-                DiffcultyBeatmapUpdated(arg1.selectedDifficultyBeatmap);
+                DiffcultyBeatmapUpdated(arg1.beatmapKey, arg1.beatmapLevel); //selectedDifficultyBeatmap);
             }
         }
 
@@ -101,27 +103,26 @@ namespace JDFixer.Managers
                 //Plugin.Log.Debug("MissionNode - difficulty: " + arg2.missionData.beatmapDifficulty); // "Easy" etc
                 //Plugin.Log.Debug("MissionNode - characteristic: " + arg2.missionData.beatmapCharacteristic.serializedName); //"Standard" etc
 
-
                 if (MissionSelectionPatch.cc_level != null) // lol null check just to print?
                 {
                     // If a map is not dled, this will be the previous selected node's map
                     Plugin.Log.Debug("CC Level: " + MissionSelectionPatch.cc_level.levelID);  // For cross check with arg2.missionId
 
-                    IDifficultyBeatmap difficulty_beatmap = CustomCampaigns.Utils.BeatmapUtils.GetMatchingBeatmapDifficulty(MissionSelectionPatch.cc_level.levelID, arg2.missionData.beatmapCharacteristic, arg2.missionData.beatmapDifficulty);
+                    BeatmapLevel beatmapLevel = CustomCampaigns.Utils.BeatmapUtils.GetMatchingBeatmapDifficulty(arg2.missionData.beatmapKey.levelId, arg2.missionData.beatmapCharacteristic, arg2.missionData.beatmapDifficulty);
 
-                    if (difficulty_beatmap != null) // lol null check just to print?
+                    if (beatmapLevel != null) // lol null check just to print?
                     {
                         //Plugin.Log.Debug("MissionNode Diff: " + difficulty_beatmap.difficulty);  // For cross check with arg2.missionData.beatmapDifficulty
                         //Plugin.Log.Debug("MissionNode Offset: " + difficulty_beatmap.noteJumpStartBeatOffset);
                         //Plugin.Log.Debug("MissionNode NJS: " + difficulty_beatmap.noteJumpMovementSpeed);
 
-                        DiffcultyBeatmapUpdated(difficulty_beatmap);
+                        DiffcultyBeatmapUpdated(arg2.missionData.beatmapKey, beatmapLevel);
                     }
                 }
             }
             else // Map not dled
             {
-                DiffcultyBeatmapUpdated(null);
+                DiffcultyBeatmapUpdated(new BeatmapKey(), null);
             }
         }
 
@@ -131,7 +132,7 @@ namespace JDFixer.Managers
             // Base campaign
             if (arg2 != null)
             {
-                DiffcultyBeatmapUpdated(arg2.missionData.level.GetDifficultyBeatmap(arg2.missionData.beatmapCharacteristic, arg2.missionData.beatmapDifficulty));
+                DiffcultyBeatmapUpdated(arg2.missionData.beatmapKey, levelsModel.GetBeatmapLevel(arg2.missionData.beatmapKey.levelId));
             }
         }
 
@@ -157,13 +158,13 @@ namespace JDFixer.Managers
         }
 
 
-        private void DiffcultyBeatmapUpdated(IDifficultyBeatmap difficultyBeatmap)
+        private void DiffcultyBeatmapUpdated(BeatmapKey beatmapKey, BeatmapLevel beatmapLevel)
         {
             //Plugin.Log.Debug("DiffcultyBeatmapUpdated()");
 
             foreach (var beatmapInfoUpdater in beatmapInfoUpdaters)
             {
-                beatmapInfoUpdater.BeatmapInfoUpdated(new BeatmapInfo(difficultyBeatmap));
+                beatmapInfoUpdater.BeatmapInfoUpdated(new BeatmapInfo(beatmapKey, beatmapLevel));
             }
         }
     }
