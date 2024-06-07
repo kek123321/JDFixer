@@ -37,7 +37,7 @@ Supports CustomCampaigns, Tournament Assistant, all flavors of Multiplayer, OST 
 - To enable `Snap JD and RT to beat fraction`, go to Mod Settings and toggle on `Separate JD and RT sliders` and set the fraction's denominator (eg. 1/3rd, 1/4th, 1/64th etc) using the slider
 - To configure song speed behavior, go to Mod Settings and choose one of the options. See [below](https://github.com/zeph-yr/JDFixer/edit/BS_1.26_Offset/README.md#understanding-song-speed-options) for a detailed explanation of how each option behaves.
 - Hover over menu in-game for additional explanations
-- **v7.0.0 for BS 1.26.0+ requires BSIPA, BSML, and SiraUtil**
+- **Requires BSIPA, BSML, and SiraUtil**
 - **Not compatible with NjsFixer and LevelTweaks.** Using with these mods may result in conflicts and unexpected behavior.
 
 ## UI Customization
@@ -136,7 +136,8 @@ By base game behavior, maps maintain their JD when played at different song spee
 ![screenshot](https://github.com/zeph-yr/JDFixer/blob/BS_1.26/Screenshots/6.0.0_mp.png)
 
 ## Versions
-- v7.0.0 for BS 1.26.0+
+- v7.2.4 for BS 1.34.2 only
+- v7.1.0 for BS ≤1.29.1
 - v6.0.0 for BS 1.26.0+
 - v5.x.x for BS 1.20.0+ only
 - 4.0.0 for BS 1.19.0 / 1.19.1
