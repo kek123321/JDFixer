@@ -75,8 +75,9 @@ namespace JDFixer
 
     internal class JDPref
     {
-        internal float njs = 16f;
-        internal float jumpDistance = 18f;
+        internal virtual float njs { get; set; } = 16f;
+        internal virtual float jumpDistance { get; set; } = 18f;
+
 
         public JDPref()
         {
@@ -93,8 +94,8 @@ namespace JDFixer
     // Reaction Time Mode
     internal class RTPref
     {
-        internal float njs = 16f;
-        internal float reactionTime = 800f;
+        internal virtual float njs { get; set; } = 16f;
+        internal virtual float reactionTime { get; set; } = 800f;
 
         public RTPref()
         {
