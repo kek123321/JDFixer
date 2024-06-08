@@ -136,7 +136,7 @@ By base game behavior, maps maintain their JD when played at different song spee
 ![screenshot](https://github.com/zeph-yr/JDFixer/blob/BS_1.26/Screenshots/6.0.0_mp.png)
 
 ## Versions
-- v7.2.6 for BS 1.36.2+
+- v7.2.6 for BS 1.36.2 / 1.37.0+
 - v7.2.4 for BS 1.34.2 only
 - v7.1.0 for BS 1.26.0 to 1.29.1
 - v6.0.0 for BS 1.26.0+
