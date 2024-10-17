@@ -1,4 +1,4 @@
-﻿using BeatSaber.PerformancePresets;
+﻿using BeatSaber;
 using HarmonyLib;
 using System;
 using System.Linq;
@@ -170,7 +170,6 @@ namespace JDFixer
         typeof(string), typeof(BeatmapKey), typeof(BeatmapLevel), typeof(OverrideEnvironmentSettings),
         typeof(ColorScheme), typeof(ColorScheme), typeof(GameplayModifiers), typeof(PlayerSpecificSettings),
         typeof(PracticeSettings), typeof(EnvironmentsListModel), typeof(AudioClipAsyncLoader), typeof(BeatmapDataLoader),
-        typeof(PerformancePreset),
         typeof(string), typeof(BeatmapLevelsModel), typeof(bool), typeof(bool),
         typeof(RecordingToolManager.SetupData) },
         new ArgumentType[] { ArgumentType.Normal, ArgumentType.Ref, ArgumentType.Normal, ArgumentType.Normal,
