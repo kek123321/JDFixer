@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using Zenject;
-using CustomCampaigns;
-
 
 namespace JDFixer.Managers
 {
